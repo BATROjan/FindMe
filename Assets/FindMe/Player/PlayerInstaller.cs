@@ -6,20 +6,18 @@ namespace FindMe.Player
     {
         public override void InstallBindings()
         {
-            Container
-                .Bind<PLayerInputController>()
-                .AsSingle()
-                .NonLazy();
-
-            Container
-                .Bind<PLayerMovementController>().AsSingle().NonLazy();
-            Container
-                .Bind<PlayerController>();
+            Container.BindInterfacesAndSelfTo<PLayerInputController>().AsSingle();
 
             Container
                 .BindMemoryPool<PlayerView, PlayerView.Pool>()
                 .WithInitialSize(1)
                 .FromComponentInNewPrefabResource("Player");
+
+            Container
+                .Bind<PlayerController>().AsSingle().NonLazy();
+
+            Container
+                .Bind<PLayerMovementController>().AsSingle().NonLazy();
         }
     }
 }

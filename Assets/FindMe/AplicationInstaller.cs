@@ -10,8 +10,18 @@ namespace FindMe
         {
             CameraInstaller.Install(Container);
 
-            Container.InstantiatePrefabResource("Plane");
+            Container
+                .InstantiatePrefabResource("Plane");
+
             PlayerInstaller.Install(Container);
+
+            Container
+                .Bind<GameController>()
+                .AsSingle()
+                .NonLazy();
+            
+            Container
+                .InstantiatePrefabResource("Start");
         }
     }
 }

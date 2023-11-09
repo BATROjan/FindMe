@@ -1,36 +1,44 @@
 using UnityEngine;
+using Zenject;
 
 namespace FindMe.Player
 {
     public class PLayerMovementController
     {
         private PLayerInputController _pLayerInputController;
-        private readonly PlayerView _playerView;
-        
-        private const float Speed = 5f;
+        private readonly PlayerController _playerController;
+
+        private const float Speed = 1f;
+        private readonly float _step;
 
         public PLayerMovementController(
-            PlayerView playerView,
+            PlayerController playerController,
             PLayerInputController pLayerInputController)
         {
             _pLayerInputController = pLayerInputController;
-            _playerView = playerView;
+            _playerController = playerController;
             
             _pLayerInputController.OnForwardMove += MoveForward;
             _pLayerInputController.OnBAckMove += MoveBack;
+
+            _step = Speed * Time.deltaTime;
         }
 
         private void MoveForward()
         {
-            var playerPosistion = _playerView.transform.position;
-            Vector3 newPosiion = playerPosistion + new Vector3(10, 0, 0) * Speed;
+            var playerPosistion = _playerController.PlayerView.transform.position;
+            var target = playerPosistion + Vector3.back;
 
-            playerPosistion = newPosiion;
+            _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
+            
         }
 
         private void MoveBack()
         {
-            
+            var playerPosistion = _playerController.PlayerView.transform.position;
+            var target = playerPosistion + Vector3.forward;
+
+            _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
         }
     }
 }
