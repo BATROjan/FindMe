@@ -1,6 +1,7 @@
 using FindMe.Player;
 using UnityEngine;
 using Zenject;
+using AnimatorInstaller = FindMe.Animation.AnimatorInstaller;
 
 namespace FindMe
 {
@@ -14,6 +15,8 @@ namespace FindMe
                 .InstantiatePrefabResource("Plane");
 
             PlayerInstaller.Install(Container);
+           
+            AnimatorInstaller.Install(Container);
 
             Container
                 .Bind<GameController>()

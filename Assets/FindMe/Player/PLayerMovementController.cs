@@ -1,3 +1,4 @@
+using FindMe.Animation;
 using UnityEngine;
 using Zenject;
 
@@ -7,16 +8,19 @@ namespace FindMe.Player
     {
         private PLayerInputController _pLayerInputController;
         private readonly PlayerController _playerController;
+        private readonly AnimatorController _animatorController;
 
         private const float Speed = 0.5f;
         private readonly float _step;
 
         public PLayerMovementController(
+            AnimatorController animatorController,
             PlayerController playerController,
             PLayerInputController pLayerInputController)
         {
             _pLayerInputController = pLayerInputController;
             _playerController = playerController;
+            _animatorController = animatorController;
             
             _pLayerInputController.OnForwardMove += MoveForward;
             _pLayerInputController.OnBackMove += MoveBack; 
@@ -29,18 +33,16 @@ namespace FindMe.Player
 
         private void Stay()
         {
-            var anim = _playerController.PlayerView.GetComponentInChildren<Animator>();
-            anim.SetBool("Run",false);
-            anim.SetBool("RunBack",false);
+            _animatorController.ChaneState("PlayerIdle");
         }
 
         private void MoveForward()
         {
             var playerPosistion = _playerController.PlayerView.transform.position;
-            var anim = _playerController.PlayerView.GetComponentInChildren<Animator>();
+
             var target = playerPosistion + _playerController.PlayerView.transform.TransformDirection(Vector3.back);
             _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
-            anim.SetBool("Run",true);
+            _animatorController.ChaneState("PlayerRun");
         }
 
         private void MoveBack()
@@ -49,8 +51,8 @@ namespace FindMe.Player
             var target = playerPosistion + _playerController.PlayerView.transform.TransformDirection(Vector3.forward);
 
             _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
-            var anim = _playerController.PlayerView.GetComponentInChildren<Animator>();
-            anim.SetBool("RunBack",true);
+            _animatorController.ChaneState("PlayerRunBack");
+
         }     
         private void TurnLeft()
         {
