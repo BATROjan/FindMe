@@ -11,6 +11,7 @@ namespace FindMe.Player
         public event Action OnTurnLeft;
         public event Action OnTurnRight;
         public event Action OnStay;
+        public event Action OnJump;
 
         public void Tick()
         {
@@ -34,6 +35,10 @@ namespace FindMe.Player
             if (Input.GetKey(KeyCode.D))
             {
                 OnTurnRight?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                OnJump?.Invoke();
             }
             else if (Input.anyKey == false)
             {

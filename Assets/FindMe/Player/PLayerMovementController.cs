@@ -1,3 +1,4 @@
+using System;
 using FindMe.Animation;
 using UnityEngine;
 using Zenject;
@@ -6,6 +7,7 @@ namespace FindMe.Player
 {
     public class PLayerMovementController : ITickable
     {
+        public Action AAAA;
         public float PlayerVelocity => _playerVelocity;
 
         private PLayerInputController _pLayerInputController;
@@ -27,6 +29,7 @@ namespace FindMe.Player
             _pLayerInputController.OnTurnLeft += TurnLeft;
             _pLayerInputController.OnTurnRight += TurnRight;
             _pLayerInputController.OnStay += Stay;
+            _pLayerInputController.OnJump += Jump;
 
             _step = Speed * Time.deltaTime;
         }
@@ -38,6 +41,15 @@ namespace FindMe.Player
 
         private void Stay()
         {
+        }
+
+        private void Jump()
+        {
+            var playerPosistion = _playerController.PlayerView.transform.position;
+
+            var target = playerPosistion + _playerController.PlayerView.transform.TransformDirection(Vector3.up);
+            _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
+            AAAA?.Invoke();
         }
 
         private void MoveForward()

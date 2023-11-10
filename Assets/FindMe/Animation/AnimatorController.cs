@@ -20,6 +20,7 @@ namespace FindMe.Animation
         {
             _playerMovementController = playerMovementController;
             _animator = animator;
+            _playerMovementController.AAAA += SetJump;
         }
 
         public void SetRun()
@@ -36,6 +37,12 @@ namespace FindMe.Animation
             Debug.Log(_playerVelocity);
             _playerVelocity = _playerMovementController.PlayerVelocity;
             _animator.SetFloat("Velocity", _playerVelocity );
+            
+        }
+
+        public void SetJump()
+        {
+            _animator.SetBool("Jump", true);
         }
     }
 }
