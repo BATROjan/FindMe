@@ -33,7 +33,7 @@ namespace FindMe.Player
 
         private void Stay()
         {
-            _animatorController.ChaneState("PlayerIdle");
+            _animatorController.SetRun(0);
         }
 
         private void MoveForward()
@@ -42,7 +42,7 @@ namespace FindMe.Player
 
             var target = playerPosistion + _playerController.PlayerView.transform.TransformDirection(Vector3.back);
             _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
-            _animatorController.ChaneState("PlayerRun");
+           // _animatorController.SetRun(_pLayerInputController);
         }
 
         private void MoveBack()
@@ -51,7 +51,6 @@ namespace FindMe.Player
             var target = playerPosistion + _playerController.PlayerView.transform.TransformDirection(Vector3.forward);
 
             _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
-            _animatorController.ChaneState("PlayerRunBack");
 
         }     
         private void TurnLeft()

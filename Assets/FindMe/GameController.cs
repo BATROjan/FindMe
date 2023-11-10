@@ -21,7 +21,6 @@ namespace FindMe
         public void StartGame()
         {
             _playerController.Spawn();
-            _animatorController.ChaneState("PlayerIdle");
         }
     }
 }

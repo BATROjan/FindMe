@@ -11,6 +11,12 @@ namespace FindMe.Player
         public event Action OnTurnLeft;
         public event Action OnTurnRight;
         public event Action OnStay;
+
+        public void Tick()
+        {
+            CheckInput();
+        }
+
         private void CheckInput()
         {
             if (Input.GetKey(KeyCode.W))
@@ -33,11 +39,6 @@ namespace FindMe.Player
             {
                 OnStay?.Invoke();
             }
-        }
-
-        public void Tick()
-        {
-            CheckInput();
         }
     }
 }

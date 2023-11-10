@@ -1,3 +1,4 @@
+using FindMe.Player;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using Zenject;
@@ -7,15 +8,26 @@ namespace FindMe.Animation
     public class AnimatorController
     {
         private readonly Animator _animator;
+        private readonly PlayerController _playerController;
 
-        public AnimatorController(Animator animator)
+        private PlayerView _playerView;
+
+        public AnimatorController(
+            PLayerInputController pLayerInputController,
+            PlayerController playerController,
+            Animator animator)
         {
+            _playerController = playerController;
             _animator = animator;
         }
 
-        public void ChaneState(string name)
+        public void SetRun(float value)
         {
-            _animator.Play(name);
+            _animator.SetFloat("Velocity", value);
+        }
+
+        public void SetIdle()
+        {
         }
     }
 }
