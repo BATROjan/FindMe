@@ -13,7 +13,7 @@ namespace FindMe.Animation
                 .AsSingle();
             
             Container
-                .Bind<AnimatorController>()
+                .BindInterfacesAndSelfTo<AnimatorController>()
                 .AsSingle()
                 .NonLazy();
         }

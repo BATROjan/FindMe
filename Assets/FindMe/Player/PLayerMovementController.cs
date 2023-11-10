@@ -4,24 +4,24 @@ using Zenject;
 
 namespace FindMe.Player
 {
-    public class PLayerMovementController
+    public class PLayerMovementController : ITickable
     {
+        public float PlayerVelocity => _playerVelocity;
+
         private PLayerInputController _pLayerInputController;
         private readonly PlayerController _playerController;
-        private readonly AnimatorController _animatorController;
 
         private const float Speed = 0.5f;
         private readonly float _step;
+        private float _playerVelocity;
 
         public PLayerMovementController(
-            AnimatorController animatorController,
             PlayerController playerController,
             PLayerInputController pLayerInputController)
         {
             _pLayerInputController = pLayerInputController;
             _playerController = playerController;
-            _animatorController = animatorController;
-            
+
             _pLayerInputController.OnForwardMove += MoveForward;
             _pLayerInputController.OnBackMove += MoveBack; 
             _pLayerInputController.OnTurnLeft += TurnLeft;
@@ -31,9 +31,13 @@ namespace FindMe.Player
             _step = Speed * Time.deltaTime;
         }
 
+        public void Tick()
+        {
+            _playerVelocity = _playerController.PlayerView.GetComponent<Rigidbody>().velocity.magnitude;
+        }
+
         private void Stay()
         {
-            _animatorController.SetRun(0);
         }
 
         private void MoveForward()
@@ -42,7 +46,6 @@ namespace FindMe.Player
 
             var target = playerPosistion + _playerController.PlayerView.transform.TransformDirection(Vector3.back);
             _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
-           // _animatorController.SetRun(_pLayerInputController);
         }
 
         private void MoveBack()
@@ -52,16 +55,16 @@ namespace FindMe.Player
 
             _playerController.PlayerView.transform.position = Vector3.MoveTowards(playerPosistion, target, _step);
 
-        }     
+        }
+
         private void TurnLeft()
         {
             _playerController.PlayerView.transform.Rotate(0,-1,0);
         }
+
         private void TurnRight()
         {
             _playerController.PlayerView.transform.Rotate(0,1,0);
         }
-
-
     }
 }

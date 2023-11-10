@@ -5,29 +5,37 @@ using Zenject;
 
 namespace FindMe.Animation
 {
-    public class AnimatorController
+    public class AnimatorController: ITickable
     {
         private readonly Animator _animator;
-        private readonly PlayerController _playerController;
+        private readonly PLayerMovementController _playerMovementController;
 
         private PlayerView _playerView;
 
+        private float _playerVelocity;
+
         public AnimatorController(
-            PLayerInputController pLayerInputController,
-            PlayerController playerController,
+            PLayerMovementController playerMovementController,
             Animator animator)
         {
-            _playerController = playerController;
+            _playerMovementController = playerMovementController;
             _animator = animator;
         }
 
-        public void SetRun(float value)
+        public void SetRun()
         {
-            _animator.SetFloat("Velocity", value);
+            
         }
 
         public void SetIdle()
         {
+        }
+
+        public void Tick()
+        {
+            Debug.Log(_playerVelocity);
+            _playerVelocity = _playerMovementController.PlayerVelocity;
+            _animator.SetFloat("Velocity", _playerVelocity );
         }
     }
 }

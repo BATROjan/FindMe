@@ -17,7 +17,7 @@ namespace FindMe.Player
                 .Bind<PlayerController>().AsSingle().NonLazy();
 
             Container
-                .Bind<PLayerMovementController>().AsSingle().NonLazy();
+                .BindInterfacesAndSelfTo<PLayerMovementController>().AsSingle().NonLazy();
         }
     }
 }
